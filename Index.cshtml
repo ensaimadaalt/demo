@@ -1,0 +1,48 @@
+@page
+@model IndexModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<div class="container">
+    <h1>Task Manager</h1>
+
+    <form method="post">
+        <div class="task-input">
+            <input type="text" name="NewTask" placeholder="Add task..." required />
+            <button type="submit">+</button>
+        </div>
+    </form>
+
+    <div>
+        <a href="/?filter=all">All</a> |
+        <a href="/?filter=active">Active</a> |
+        <a href="/?filter=completed">Completed</a>
+    </div>
+
+    @foreach (var task in Model.FilteredTasks)
+    {
+        <div class="task">
+            <span class="@(task.IsCompleted ? "completed" : "")">
+                @task.Name
+            </span>
+
+            <div>
+                <a href="/?toggle=@task.Id">✔</a>
+                <a href="/?delete=@task.Id">❌</a>
+            </div>
+        </div>
+    }
+
+    @if (!Model.FilteredTasks.Any())
+    {
+        <p>No tasks found</p>
+    }
+</div>
+
+</body>
+</html>
